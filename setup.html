@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InventoTrack - Quick Setup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #DAF1DE 0%, #C8E8CE 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(5, 31, 32, 0.1);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #051F20;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            color: #8EB69B;
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
+
+        .status {
+            background: #DAF1DE;
+            border-left: 4px solid #8EB69B;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .status h3 {
+            color: #051F20;
+            margin-bottom: 10px;
+        }
+
+        .status p {
+            color: #163932;
+            margin: 5px 0;
+        }
+
+        .button {
+            background: linear-gradient(135deg, #163932 0%, #235347 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 10px;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(22, 57, 50, 0.3);
+        }
+
+        .button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .button.secondary {
+            background: linear-gradient(135deg, #8EB69B 0%, #9FD2A7 100%);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .result.success {
+            background: #DAF1DE;
+            border-left: 4px solid #8EB69B;
+            color: #051F20;
+        }
+
+        .result.error {
+            background: #ffebee;
+            border-left: 4px solid #ef5350;
+            color: #c62828;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #163932;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .summary {
+            text-align: left;
+            margin-top: 15px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #C8E8CE;
+        }
+
+        .icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="icon">🌿</div>
+        <h1>InventoTrack Setup</h1>
+        <p class="subtitle">Quick Database Initialization</p>
+
+        <div class="status">
+            <h3>📋 What This Will Do:</h3>
+            <p>✅ Create admin user (admin@example.com / 123456)</p>
+            <p>✅ Add 10 sample products</p>
+            <p>✅ Generate 20 sales transactions</p>
+            <p>✅ Create 15 purchase records</p>
+            <p>⚠️ This will clear any existing data!</p>
+        </div>
+
+        <button class="button" id="seedBtn" onclick="seedDatabase()">
+            🚀 Initialize Database
+        </button>
+
+        <button class="button secondary" onclick="window.location.href='http://localhost:5174'">
+            🏠 Go to InventoTrack
+        </button>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        async function seedDatabase() {
+            const btn = document.getElementById('seedBtn');
+            const result = document.getElementById('result');
+
+            // Disable button and show loading
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span> Initializing...';
+            result.style.display = 'none';
+
+            try {
+                const response = await fetch('http://localhost:5000/api/seed/quick', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    result.className = 'result success';
+                    result.innerHTML = `
+                        <h3>✅ Success!</h3>
+                        <p>Database initialized successfully!</p>
+                        <div class="summary">
+                            <div class="summary-item">
+                                <span>👥 Users:</span>
+                                <strong>${data.summary.users}</strong>
+                            </div>
+                            <div class="summary-item">
+                                <span>📦 Products:</span>
+                                <strong>${data.summary.products}</strong>
+                            </div>
+                            <div class="summary-item">
+                                <span>💰 Sales:</span>
+                                <strong>${data.summary.sales}</strong>
+                            </div>
+                            <div class="summary-item">
+                                <span>🛒 Purchases:</span>
+                                <strong>${data.summary.purchases}</strong>
+                            </div>
+                            <div class="summary-item">
+                                <span>📊 Revenue:</span>
+                                <strong>$${data.summary.totalRevenue}</strong>
+                            </div>
+                        </div>
+                        <p style="margin-top: 15px;"><strong>You can now login!</strong></p>
+                        <p>Email: admin@example.com</p>
+                        <p>Password: 123456</p>
+                    `;
+                    btn.innerHTML = '✅ Initialized!';
+                } else {
+                    throw new Error(data.message || 'Seeding failed');
+                }
+
+                result.style.display = 'block';
+
+            } catch (error) {
+                result.className = 'result error';
+                result.innerHTML = `
+                    <h3>❌ Error</h3>
+                    <p>${error.message}</p>
+                    <p style="margin-top: 10px;">Make sure the backend server is running on port 5000.</p>
+                `;
+                result.style.display = 'block';
+
+                btn.disabled = false;
+                btn.innerHTML = '🚀 Initialize Database';
+            }
+        }
+    </script>
+</body>
+
+</html>

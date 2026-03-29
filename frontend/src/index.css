@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-sans antialiased text-[#051F20] bg-[#DAF1DE];
+    /* Using exact hex for darkest teal text and lightest mint background */
+  }
+
+  /* Thin, professional scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-[#8EB69B] rounded-full hover:bg-[#235347] transition-colors;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-[#051F20];
+    /* Darkest teal for headings */
+  }
+}
+
+@layer components {
+
+  /* Cards & Panels - Clean White with Sage Border */
+  .glass-panel {
+    @apply bg-white border border-[#9FD2A7] rounded-xl shadow-sm p-6 transition-all;
+  }
+
+  .glass-card {
+    @apply bg-white border border-[#9FD2A7] rounded-xl shadow-sm hover:shadow-md transition-all p-4 duration-300;
+  }
+
+  /* Inputs - Clean White */
+  .glass-input {
+    @apply bg-white border border-[#9FD2A7] rounded-lg px-4 py-3 w-full text-[#051F20] placeholder-slate-400 focus:outline-none focus:border-[#235347] focus:ring-2 focus:ring-[#235347]/20 transition-all shadow-sm;
+  }
+
+  /* Buttons */
+  .btn-primary {
+    @apply bg-[#163932] hover:bg-[#0B2B26] text-white font-semibold py-2.5 px-6 rounded-lg transition-all shadow-sm active:scale-95 flex items-center justify-center gap-2;
+  }
+
+  .btn-secondary {
+    @apply bg-white hover:bg-[#DAF1DE] text-[#163932] font-medium py-2.5 px-6 rounded-lg border border-[#9FD2A7] transition-all shadow-sm flex items-center justify-center gap-2;
+  }
+
+  /* Text Utilities */
+  .text-brand-900 {
+    @apply text-[#051F20];
+  }
+
+  .text-brand-800 {
+    @apply text-[#0B2B26];
+  }
+
+  .text-brand-700 {
+    @apply text-[#163932];
+  }
+
+  .text-brand-600 {
+    @apply text-[#235347];
+  }
+
+  .bg-brand-50 {
+    @apply bg-[#DAF1DE];
+  }
+
+  .page-container {
+    @apply p-8 max-w-7xl mx-auto w-full animate-fadeIn;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s ease-out forwards;
+}
