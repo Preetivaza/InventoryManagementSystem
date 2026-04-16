@@ -130,9 +130,9 @@ const Reports = () => {
             {profit ? (
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                     {[
-                        { label: 'Total Revenue', value: `$${(profit.totalRevenue || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, icon: DollarSign, color: 'bg-teal-50 text-teal-700' },
-                        { label: 'Total Profit', value: `$${(profit.totalProfit || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, icon: TrendingUp, color: 'bg-green-50 text-green-700' },
-                        { label: 'Total Costs', value: `$${(profit.totalCost || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, icon: TrendingDown, color: 'bg-orange-50 text-orange-700' },
+                        { label: 'Total Revenue', value: `₹${(profit.totalRevenue || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, icon: DollarSign, color: 'bg-teal-50 text-teal-700' },
+                        { label: 'Total Profit', value: `₹${(profit.totalProfit || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, icon: TrendingUp, color: 'bg-green-50 text-green-700' },
+                        { label: 'Total Costs', value: `₹${(profit.totalCost || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, icon: TrendingDown, color: 'bg-orange-50 text-orange-700' },
                         { label: 'Profit Margin', value: `${profit.margin || 0}%`, icon: BarChart2, color: 'bg-blue-50 text-blue-700' },
                     ].map((kpi, i) => (
                         <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
@@ -184,7 +184,7 @@ const Reports = () => {
                         <Bar data={monthlyChart} options={{
                             ...chartDefaults, scales: {
                                 x: { grid: { display: false }, ticks: { font: { size: 10 } } },
-                                y: { grid: { color: '#f0faf2' }, ticks: { font: { size: 10 }, callback: v => `$${v}` } }
+                                y: { grid: { color: '#f0faf2' }, ticks: { font: { size: 10 }, callback: v => `₹${v}` } }
                             }
                         }} />
                     </div>
@@ -224,7 +224,7 @@ const Reports = () => {
                                     <div key={p._id || i}>
                                         <div className="flex items-center justify-between text-xs mb-1.5">
                                             <span className="font-semibold text-[#051F20] truncate max-w-[70%]">{p.name}</span>
-                                            <span className="text-green-600 font-bold">${(p.profit || 0).toFixed(2)}</span>
+                                            <span className="text-green-600 font-bold">₹{(p.profit || 0).toFixed(2)}</span>
                                         </div>
                                         <div className="h-1.5 bg-[#DAF1DE] rounded-full overflow-hidden">
                                             <motion.div initial={{ width: 0 }} animate={{ width: `${pct}%` }} className="h-full rounded-full" style={{ backgroundColor: green[i % green.length] }} />
@@ -259,10 +259,10 @@ const Reports = () => {
                                 <tr key={i} className="hover:bg-[#f0faf2cc] transition-colors group">
                                     <td className="px-6 py-4 text-xs font-bold text-[#051F20]">{m.month}</td>
                                     <td className="px-6 py-4 text-xs text-slate-500">{m.orders} items</td>
-                                    <td className="px-6 py-4 text-xs font-bold text-[#163932]">${(m.revenue || 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
-                                    <td className="px-6 py-4 text-xs font-medium text-orange-600">${(m.cost || 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
-                                    <td className="px-6 py-4 text-xs font-medium text-red-400">-${(m.refunds || 0).toFixed(2)}</td>
-                                    <td className="px-6 py-4 text-xs font-black text-green-600">${(m.profit || 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                    <td className="px-6 py-4 text-xs font-bold text-[#163932]">₹{(m.revenue || 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                    <td className="px-6 py-4 text-xs font-medium text-orange-600">₹{(m.cost || 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                    <td className="px-6 py-4 text-xs font-medium text-red-400">-₹{(m.refunds || 0).toFixed(2)}</td>
+                                    <td className="px-6 py-4 text-xs font-black text-green-600">₹{(m.profit || 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                                 </tr>
                             )) : (
                                 <tr><td colSpan="6" className="px-6 py-10 text-center text-slate-400 text-xs italic">No data records found in historical logs</td></tr>

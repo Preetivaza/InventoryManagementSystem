@@ -95,7 +95,7 @@ const Purchases = () => {
                         <div>
                             <p className="text-slate-500 text-sm">Total Spend</p>
                             <h3 className="text-2xl font-bold text-[#051F20] mt-1">
-                                ${purchases.reduce((sum, p) => sum + (p.purchasePrice * p.quantity), 0).toFixed(2)}
+                                ₹{purchases.reduce((sum, p) => sum + (p.purchasePrice * p.quantity), 0).toFixed(2)}
                             </h3>
                         </div>
                         <div className="bg-[#C8E8CE] p-3 rounded-lg">
@@ -135,9 +135,9 @@ const Purchases = () => {
                                     </td>
                                     <td className="px-4 py-3 text-sm text-slate-600">{purchase.supplierName}</td>
                                     <td className="px-4 py-3 text-sm font-semibold text-[#163932]">{purchase.quantity}</td>
-                                    <td className="px-4 py-3 text-sm text-slate-600">${purchase.purchasePrice}</td>
+                                    <td className="px-4 py-3 text-sm text-slate-600">₹{purchase.purchasePrice}</td>
                                     <td className="px-4 py-3 font-bold text-[#051F20]">
-                                        ${(purchase.purchasePrice * purchase.quantity).toFixed(2)}
+                                        ₹{(purchase.purchasePrice * purchase.quantity).toFixed(2)}
                                     </td>
                                 </tr>
                             )) : (
@@ -204,7 +204,7 @@ const Purchases = () => {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-[#051F20] mb-1">Unit Price ($)</label>
+                                        <label className="block text-sm font-medium text-[#051F20] mb-1">Unit Price (₹)</label>
                                         <input
                                             type="number"
                                             step="0.01"
@@ -242,7 +242,7 @@ const Purchases = () => {
                                     <div className="flex justify-between text-lg mb-4">
                                         <span className="text-slate-600">Total Amount:</span>
                                         <span className="font-bold text-[#051F20] text-xl">
-                                            ${((formData.quantity || 0) * (formData.purchasePrice || 0)).toFixed(2)}
+                                            ₹{((formData.quantity || 0) * (formData.purchasePrice || 0)).toFixed(2)}
                                         </span>
                                     </div>
                                     <button type="submit" className="btn-primary w-full py-3">

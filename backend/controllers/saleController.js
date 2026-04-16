@@ -152,8 +152,8 @@ const generateInvoice = async (req, res) => {
         doc.text(item.product?.name || 'N/A', 80, y, { width: 210 });
         doc.text(item.product?.sku || '-', 300, y);
         doc.text(String(item.quantity), 375, y);
-        doc.text(`$${item.price.toFixed(2)}`, 400, y);
-        doc.text(`$${(item.price * item.quantity).toFixed(2)}`, 490, y);
+        doc.text(`₹${item.price.toFixed(2)}`, 400, y);
+        doc.text(`₹${(item.price * item.quantity).toFixed(2)}`, 490, y);
         y += 20;
     });
 
@@ -163,7 +163,7 @@ const generateInvoice = async (req, res) => {
     y += 12;
     doc.rect(380, y, 182, 28).fill('#163932');
     doc.fillColor('white').font('Helvetica-Bold').fontSize(12);
-    doc.text(`TOTAL:  $${sale.totalAmount.toFixed(2)}`, 385, y + 8);
+    doc.text(`TOTAL:  ₹${sale.totalAmount.toFixed(2)}`, 385, y + 8);
 
     // ── Footer ───────────────────────────────────────────────────────────────
     doc.fillColor('#888').font('Helvetica').fontSize(8)

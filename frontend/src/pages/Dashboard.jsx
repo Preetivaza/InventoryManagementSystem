@@ -150,7 +150,7 @@ const Dashboard = () => {
     const forecastData = {
         labels: forecast?.forecast?.map(f => f.day) || [],
         datasets: [{
-            label: 'Predicted Sales ($)',
+            label: 'Predicted Sales (₹)',
             data: forecast?.forecast?.map(f => f.predictedSales) || [],
             borderColor: '#235347',
             backgroundColor: 'rgba(35,83,71,0.1)',
@@ -161,7 +161,7 @@ const Dashboard = () => {
     const topSellingChart = {
         labels: topSelling.map(p => p.name.length > 15 ? p.name.substring(0, 15) + '…' : p.name),
         datasets: [{
-            label: 'Revenue ($)',
+            label: 'Revenue (₹)',
             data: topSelling.map(p => parseFloat((p.revenue || 0).toFixed(2))),
             backgroundColor: ['#051F20', '#163932', '#235347', '#8EB69B', '#C8E8CE'],
             borderWidth: 0, borderRadius: 6,
@@ -173,7 +173,7 @@ const Dashboard = () => {
         plugins: { legend: { display: false } },
         scales: {
             x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 10 } } },
-            y: { grid: { color: '#f1f5f9' }, ticks: { color: '#94a3b8', font: { size: 10 }, callback: v => `$${v}` } }
+            y: { grid: { color: '#f1f5f9' }, ticks: { color: '#94a3b8', font: { size: 10 }, callback: v => `₹${v}` } }
         }
     };
 
@@ -206,11 +206,11 @@ const Dashboard = () => {
 
             {/* KPI Cards */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                <KPICard label="Total Revenue" value={`$${(stats?.totalRevenue || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
-                    sub={`$${(stats?.revenue30 || 0).toFixed(0)} last 30 days`}
+                <KPICard label="Total Revenue" value={`₹${(stats?.totalRevenue || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+                    sub={`₹${(stats?.revenue30 || 0).toFixed(0)} last 30 days`}
                     icon={DollarSign} iconBg="bg-[#C8E8CE]" iconColor="text-[#163932]"
                     change={stats?.revenueGrowth} delay={0} />
-                <KPICard label="30-Day Profit" value={`$${(stats?.profit30 || 0).toFixed(2)}`}
+                <KPICard label="30-Day Profit" value={`₹${(stats?.profit30 || 0).toFixed(2)}`}
                     sub="From completed sales"
                     icon={TrendingUp} iconBg="bg-green-50" iconColor="text-green-600"
                     delay={0.05} />
@@ -229,8 +229,8 @@ const Dashboard = () => {
                 {[
                     { label: 'Total Sales', value: stats?.totalSales || 0, icon: ShoppingCart, color: 'text-teal-600', bg: 'bg-teal-50' },
                     { label: 'Low Stock Alerts', value: stats?.lowStockCount || 0, icon: AlertTriangle, color: 'text-amber-600', bg: 'bg-amber-50' },
-                    { label: 'Total Refunds', value: `$${(stats?.totalRefunds30 || 0).toFixed(2)}`, icon: TrendingDown, color: 'text-red-500', bg: 'bg-red-50' },
-                    { label: 'Purchase Spent', value: `$${(stats?.totalPurchaseCost30 || 0).toFixed(2)}`, icon: Package, color: 'text-indigo-600', bg: 'bg-indigo-50' },
+                    { label: 'Total Refunds', value: `₹${(stats?.totalRefunds30 || 0).toFixed(2)}`, icon: TrendingDown, color: 'text-red-500', bg: 'bg-red-50' },
+                    { label: 'Purchase Spent', value: `₹${(stats?.totalPurchaseCost30 || 0).toFixed(2)}`, icon: Package, color: 'text-indigo-600', bg: 'bg-indigo-50' },
                 ].map((k, i) => (
                     <div key={i} className="bg-white rounded-2xl p-4 shadow-sm border border-[#DAF1DE] flex items-center gap-3">
                         <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${k.bg}`}>
@@ -281,7 +281,7 @@ const Dashboard = () => {
                     <div className="h-48">
                         <Bar data={topSellingChart} options={{
                             ...commonOpts, indexAxis: 'y', scales: {
-                                x: { grid: { color: '#f1f5f9' }, ticks: { color: '#94a3b8', font: { size: 10 }, callback: v => `$${v}` } },
+                                x: { grid: { color: '#f1f5f9' }, ticks: { color: '#94a3b8', font: { size: 10 }, callback: v => `₹${v}` } },
                                 y: { grid: { display: false }, ticks: { color: '#334155', font: { size: 10 } } }
                             }
                         }} />

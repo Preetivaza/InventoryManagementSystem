@@ -117,7 +117,7 @@ const CustomerProfile = () => {
                 <div className="grid grid-cols-3 divide-x divide-[#DAF1DE] border-b border-[#DAF1DE]">
                     {[
                         { label: 'Total Orders', value: stats.totalOrders || 0, icon: ShoppingBag },
-                        { label: 'Total Spent', value: `$${(stats.totalSpent || 0).toFixed(2)}`, icon: DollarSign },
+                        { label: 'Total Spent', value: `₹${(stats.totalSpent || 0).toFixed(2)}`, icon: DollarSign },
                         { label: 'Member Since', value: memberSince, icon: Calendar },
                     ].map(({ label, value, icon: Icon }, i) => (
                         <div key={i} className="p-4 text-center">
@@ -247,10 +247,10 @@ const CustomerProfile = () => {
                         <h3 className="font-bold text-lg">{tier.label} Member</h3>
                     </div>
                     <p className="text-white/70 text-sm mb-4">
-                        You have spent <strong className="text-white">${(stats.totalSpent || 0).toFixed(2)}</strong> total.
+                        You have spent <strong className="text-white">₹{(stats.totalSpent || 0).toFixed(2)}</strong> total.
                         {stats.totalSpent < 5000 && (
                             <> Spend <strong className="text-white">
-                                ${(stats.totalSpent >= 2000 ? 5000 - stats.totalSpent : stats.totalSpent >= 500 ? 2000 - stats.totalSpent : 500 - stats.totalSpent).toFixed(2)}
+                                ₹{(stats.totalSpent >= 2000 ? 5000 - stats.totalSpent : stats.totalSpent >= 500 ? 2000 - stats.totalSpent : 500 - stats.totalSpent).toFixed(2)}
                             </strong> more to reach the next tier.</>
                         )}
                     </p>
@@ -259,8 +259,8 @@ const CustomerProfile = () => {
                             style={{ width: `${Math.min(tier.progress || (stats.totalSpent / 500 * 100), 100)}%` }} />
                     </div>
                     <div className="flex justify-between text-xs text-white/50 mt-1">
-                        <span>$0</span>
-                        <span>{stats.totalSpent >= 2000 ? '$5,000 Platinum' : stats.totalSpent >= 500 ? '$2,000 Gold' : '$500 Silver'}</span>
+                        <span>₹0</span>
+                        <span>{stats.totalSpent >= 2000 ? '₹5,000 Platinum' : stats.totalSpent >= 500 ? '₹2,000 Gold' : '₹500 Silver'}</span>
                     </div>
                 </div>
             </div>

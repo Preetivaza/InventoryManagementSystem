@@ -85,7 +85,7 @@ const Returns = () => {
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 {[
                     { label: 'Total Returns', value: stats.totalReturns, icon: RotateCcw, color: 'bg-orange-50 text-orange-600' },
-                    { label: 'Total Refunded', value: `$${(stats.totalRefundAmount || 0).toFixed(2)}`, icon: Package, color: 'bg-red-50 text-red-600' },
+                    { label: 'Total Refunded', value: `₹${(stats.totalRefundAmount || 0).toFixed(2)}`, icon: Package, color: 'bg-red-50 text-red-600' },
                     { label: 'Top Reason', value: Object.entries(stats.byReason || {}).sort((a, b) => b[1] - a[1])[0]?.[0] || 'N/A', icon: AlertCircle, color: 'bg-yellow-50 text-yellow-600' },
                     { label: 'Return Rate', value: `${stats.totalReturns}`, icon: RotateCcw, color: 'bg-blue-50 text-blue-600' },
                 ].map((kpi, i) => (
@@ -145,7 +145,7 @@ const Returns = () => {
                                     <td className="px-5 py-4 font-mono text-xs text-slate-600">{r.sale?.invoiceId || '-'}</td>
                                     <td className="px-5 py-4 text-sm font-medium text-[#051F20]">{r.product?.name || '-'}</td>
                                     <td className="px-5 py-4 text-sm text-center">{r.quantity}</td>
-                                    <td className="px-5 py-4 text-sm font-bold text-red-600">-${r.refundAmount?.toFixed(2)}</td>
+                                    <td className="px-5 py-4 text-sm font-bold text-red-600">-₹{r.refundAmount?.toFixed(2)}</td>
                                     <td className="px-5 py-4">
                                         <span className="px-2.5 py-1 bg-orange-50 text-orange-700 rounded-lg text-xs">{r.reason}</span>
                                     </td>

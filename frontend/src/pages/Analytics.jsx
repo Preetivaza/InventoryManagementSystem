@@ -84,15 +84,15 @@ const Analytics = () => {
     const topBar = {
         labels: topSelling.map(p => p.name?.length > 14 ? p.name.substring(0, 14) + '…' : p.name),
         datasets: [
-            { label: 'Revenue ($)', data: topSelling.map(p => parseFloat((p.revenue || 0).toFixed(2))), backgroundColor: '#163932', borderRadius: 5 },
-            { label: 'Profit ($)', data: topSelling.map(p => parseFloat((p.profit || 0).toFixed(2))), backgroundColor: '#8EB69B', borderRadius: 5 }
+            { label: 'Revenue (₹)', data: topSelling.map(p => parseFloat((p.revenue || 0).toFixed(2))), backgroundColor: '#163932', borderRadius: 5 },
+            { label: 'Profit (₹)', data: topSelling.map(p => parseFloat((p.profit || 0).toFixed(2))), backgroundColor: '#8EB69B', borderRadius: 5 }
         ]
     };
 
     const forecastLine = {
         labels: forecast?.forecast?.map(f => f.day) || [],
         datasets: [{
-            label: 'Predicted Revenue ($)',
+            label: 'Predicted Revenue (₹)',
             data: forecast?.forecast?.map(f => f.predictedSales) || [],
             borderColor: '#163932', backgroundColor: 'rgba(22,57,50,0.08)',
             tension: 0.4, fill: true, pointRadius: 4,
@@ -162,7 +162,7 @@ const Analytics = () => {
                         <h3 className="font-bold text-amber-900">No Data Available</h3>
                         <p className="text-sm text-amber-700 max-w-md">Reports and analytics require sales and product data. Try seeding the database or making some sales first.</p>
                     </div>
-                    <a href="http://localhost:5000/setup.html" target="_blank" rel="noreferrer" className="px-4 py-2 bg-amber-600 text-white rounded-lg text-sm font-medium hover:bg-amber-700 transition-colors">
+                    <a href={`${import.meta.env.VITE_API_URL}/setup.html`} target="_blank" rel="noreferrer" className="px-4 py-2 bg-amber-600 text-white rounded-lg text-sm font-medium hover:bg-amber-700 transition-colors">
                         Initialize Sample Data
                     </a>
                 </motion.div>
@@ -196,7 +196,7 @@ const Analytics = () => {
                             <Bar data={topBar} options={{
                                 ...chartOpts, scales: {
                                     x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 10 } } },
-                                    y: { grid: { color: '#f1f5f9' }, ticks: { color: '#94a3b8', font: { size: 10 }, callback: v => `$${v}` } }
+                                    y: { grid: { color: '#f1f5f9' }, ticks: { color: '#94a3b8', font: { size: 10 }, callback: v => `₹${v}` } }
                                 }
                             }} />
                         ) : <div className="h-full flex items-center justify-center text-slate-400 italic text-sm">No sales data</div>}
@@ -222,7 +222,7 @@ const Analytics = () => {
                             <Line data={forecastLine} options={{
                                 ...chartOpts, plugins: { legend: { display: false } }, scales: {
                                     x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 10 } } },
-                                    y: { grid: { color: '#f1f5f9' }, ticks: { color: '#94a3b8', font: { size: 10 }, callback: v => `$${v}` } }
+                                    y: { grid: { color: '#f1f5f9' }, ticks: { color: '#94a3b8', font: { size: 10 }, callback: v => `₹${v}` } }
                                 }
                             }} />
                         ) : <div className="h-full flex items-center justify-center text-slate-400 text-sm">Insufficient data for forecast</div>}
@@ -245,7 +245,7 @@ const Analytics = () => {
                                         <p className="text-xs text-slate-400">{p.sku} • Qty: {p.quantity}</p>
                                     </div>
                                     <div className="text-right">
-                                        <p className="text-xs font-bold text-red-600">${deadValue}</p>
+                                        <p className="text-xs font-bold text-red-600">₹{deadValue}</p>
                                         <p className="text-xs text-slate-400">tied up</p>
                                     </div>
                                 </div>

@@ -30,7 +30,8 @@ const CustomerOrders = () => {
 
     const downloadInvoice = (sale) => {
         const info = JSON.parse(localStorage.getItem('customerInfo') || '{}');
-        fetch(`http://localhost:5000/api/sales/${sale._id}/invoice`, {
+        const baseUrl = `${import.meta.env.VITE_API_URL}/api`;
+        fetch(`${baseUrl}/sales/${sale._id}/invoice`, {
             headers: { Authorization: `Bearer ${info.token}` }
         }).then(r => r.blob()).then(blob => {
             const a = document.createElement('a');
@@ -46,7 +47,7 @@ const CustomerOrders = () => {
         <div className="space-y-6">
             <div>
                 <h1 className="text-2xl font-bold text-[#051F20]">My Orders</h1>
-                <p className="text-slate-500 text-sm mt-0.5">{sales.length} orders · ${totalSpent.toFixed(2)} total spent</p>
+                <p className="text-slate-500 text-sm mt-0.5">{sales.length} orders · ₹{totalSpent.toFixed(2)} total spent</p>
             </div>
 
             {/* Search */}
@@ -97,7 +98,7 @@ const CustomerOrders = () => {
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-3">
-                                    <p className="font-bold text-[#051F20]">${sale.totalAmount?.toFixed(2)}</p>
+                                    <p className="font-bold text-[#051F20]">₹{sale.totalAmount?.toFixed(2)}</p>
                                     <div className="flex items-center gap-1">
                                         <button onClick={e => { e.stopPropagation(); downloadInvoice(sale); }}
                                             className="p-2 hover:bg-[#C8E8CE] rounded-xl text-slate-400 hover:text-[#163932] transition-colors" title="Download PDF">
@@ -131,15 +132,15 @@ const CustomerOrders = () => {
                                                             </div>
                                                         </div>
                                                         <div className="text-right">
-                                                            <p className="text-sm font-semibold text-[#163932]">${(item.price * item.quantity).toFixed(2)}</p>
-                                                            <p className="text-xs text-slate-400">${item.price?.toFixed(2)} each</p>
+                                                            <p className="text-sm font-semibold text-[#163932]">₹{(item.price * item.quantity).toFixed(2)}</p>
+                                                            <p className="text-xs text-slate-400">₹{item.price?.toFixed(2)} each</p>
                                                         </div>
                                                     </div>
                                                 ))}
                                             </div>
                                             <div className="flex items-center justify-between mt-4 pt-3 border-t border-[#DAF1DE]">
                                                 <p className="text-sm font-semibold text-slate-600">Order Total</p>
-                                                <p className="text-lg font-bold text-[#051F20]">${sale.totalAmount?.toFixed(2)}</p>
+                                                <p className="text-lg font-bold text-[#051F20]">₹{sale.totalAmount?.toFixed(2)}</p>
                                             </div>
                                             <button onClick={() => downloadInvoice(sale)}
                                                 className="w-full mt-3 flex items-center justify-center gap-2 py-2.5 border border-[#9FD2A7] text-[#163932] rounded-xl text-sm font-medium hover:bg-[#C8E8CE] transition-colors">

@@ -58,7 +58,8 @@ const CustomerDashboard = () => {
 
     const downloadInvoice = (sale) => {
         const info = JSON.parse(localStorage.getItem('customerInfo') || '{}');
-        fetch(`http://localhost:5000/api/sales/${sale._id}/invoice`, {
+        const baseUrl = `${import.meta.env.VITE_API_URL}/api`;
+        fetch(`${baseUrl}/sales/${sale._id}/invoice`, {
             headers: { Authorization: `Bearer ${info.token}` }
         }).then(r => r.blob()).then(blob => {
             const a = document.createElement('a');
@@ -92,7 +93,7 @@ const CustomerDashboard = () => {
                         <div className="mt-4">
                             <div className="flex items-center justify-between text-xs text-white/60 mb-2">
                                 <span>{tier.label} Tier</span>
-                                <span>${nextTier.need.toFixed(2)} more to <strong className="text-white">{nextTier.next}</strong></span>
+                                <span>₹{nextTier.need.toFixed(2)} more to <strong className="text-white">{nextTier.next}</strong></span>
                             </div>
                             <div className="h-2 bg-white/20 rounded-full overflow-hidden">
                                 <motion.div initial={{ width: 0 }} animate={{ width: `${Math.min(tier.progress, 100)}%` }}
@@ -108,9 +109,9 @@ const CustomerDashboard = () => {
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <KPICard label="Total Orders" value={stats.totalOrders || 0}
                     sub="All time" icon={ShoppingBag} iconBg="bg-[#C8E8CE]" iconColor="text-[#163932]" delay={0} />
-                <KPICard label="Total Spent" value={`$${(stats.totalSpent || 0).toFixed(2)}`}
+                <KPICard label="Total Spent" value={`₹${(stats.totalSpent || 0).toFixed(2)}`}
                     sub="Lifetime value" icon={DollarSign} iconBg="bg-green-50" iconColor="text-green-600" delay={0.05} />
-                <KPICard label="Avg. Order" value={`$${(stats.avgOrder || 0).toFixed(2)}`}
+                <KPICard label="Avg. Order" value={`₹${(stats.avgOrder || 0).toFixed(2)}`}
                     sub="Per purchase" icon={TrendingUp} iconBg="bg-blue-50" iconColor="text-blue-600" delay={0.1} />
                 <KPICard label="Last Purchase"
                     value={customer?.lastPurchase ? new Date(customer.lastPurchase).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'Never'}
@@ -157,7 +158,7 @@ const CustomerDashboard = () => {
                                 </div>
                                 <div className="flex items-center gap-4">
                                     <div className="text-right">
-                                        <p className="font-bold text-[#051F20]">${sale.totalAmount?.toFixed(2)}</p>
+                                        <p className="font-bold text-[#051F20]">₹{sale.totalAmount?.toFixed(2)}</p>
                                         <span className="text-xs bg-green-50 text-green-700 px-2 py-0.5 rounded-full font-medium">
                                             {sale.status || 'Completed'}
                                         </span>

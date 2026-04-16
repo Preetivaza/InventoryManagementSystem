@@ -222,8 +222,8 @@ const Products = () => {
                                         <td className="px-4 py-3.5">
                                             <span className="px-2 py-0.5 bg-[#DAF1DE] text-[#163932] rounded-lg text-xs font-medium">{p.category}</span>
                                         </td>
-                                        <td className="px-4 py-3.5 font-semibold text-[#163932] text-sm">${p.price?.toFixed(2)}</td>
-                                        <td className="px-4 py-3.5 text-sm text-slate-500">${(p.costPrice || 0).toFixed(2)}</td>
+                                        <td className="px-4 py-3.5 font-semibold text-[#163932] text-sm">₹{p.price?.toFixed(2)}</td>
+                                        <td className="px-4 py-3.5 text-sm text-slate-500">₹{(p.costPrice || 0).toFixed(2)}</td>
                                         <td className="px-4 py-3.5"><MarginBadge sell={p.price} cost={p.costPrice} /></td>
                                         <td className="px-4 py-3.5">
                                             <div className="flex items-center gap-2">
@@ -315,7 +315,7 @@ const Products = () => {
                                 <div className="grid grid-cols-2 gap-3">
                                     <div>
                                         <label className="block text-xs font-semibold text-slate-600 mb-1 flex items-center gap-1">
-                                            <DollarSign size={11} /> Sell Price ($) *
+                                            <DollarSign size={11} /> Sell Price (₹) *
                                         </label>
                                         <input type="number" step="0.01" min="0"
                                             className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#9FD2A7]"
@@ -323,7 +323,7 @@ const Products = () => {
                                     </div>
                                     <div>
                                         <label className="block text-xs font-semibold text-slate-600 mb-1 flex items-center gap-1">
-                                            <TrendingUp size={11} /> Cost Price ($)
+                                            <TrendingUp size={11} /> Cost Price (₹)
                                         </label>
                                         <input type="number" step="0.01" min="0"
                                             className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#9FD2A7]"
@@ -334,7 +334,7 @@ const Products = () => {
                                     <div className="bg-green-50 border border-green-100 rounded-xl px-3 py-2 text-xs text-green-700 flex items-center gap-2">
                                         <TrendingUp size={12} />
                                         Profit margin: <strong>{(((formData.price - formData.costPrice) / formData.price) * 100).toFixed(1)}%</strong>
-                                        &nbsp;(${(formData.price - formData.costPrice).toFixed(2)} per unit)
+                                        &nbsp;(₹{(formData.price - formData.costPrice).toFixed(2)} per unit)
                                     </div>
                                 )}
                                 <div className="grid grid-cols-2 gap-3">

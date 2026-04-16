@@ -42,7 +42,8 @@ const StatCard = ({ label, value, sub, icon: Icon, iconBg, iconColor, delay }) =
 const InvoiceRow = ({ sale }) => {
     const downloadInvoice = () => {
         const token = JSON.parse(localStorage.getItem('userInfo') || '{}').token;
-        fetch(`http://localhost:5000/api/sales/${sale._id}/invoice`, {
+        const baseUrl = `${import.meta.env.VITE_API_URL}/api`;
+        fetch(`${baseUrl}/sales/${sale._id}/invoice`, {
             headers: { Authorization: `Bearer ${token}` }
         }).then(r => r.blob()).then(blob => {
             const a = document.createElement('a');
@@ -57,7 +58,7 @@ const InvoiceRow = ({ sale }) => {
             <div className="flex items-center justify-between mb-2">
                 <span className="font-mono text-xs text-slate-400">{sale.invoiceId}</span>
                 <div className="flex items-center gap-2">
-                    <span className="font-bold text-[#163932] text-sm">${sale.totalAmount?.toFixed(2)}</span>
+                    <span className="font-bold text-[#163932] text-sm">₹{sale.totalAmount?.toFixed(2)}</span>
                     <button onClick={downloadInvoice} title="Download Invoice"
                         className="p-1 hover:bg-[#C8E8CE] rounded-lg text-slate-400 hover:text-[#163932] transition-colors">
                         <FileText size={12} />
@@ -68,7 +69,7 @@ const InvoiceRow = ({ sale }) => {
                 <div className="flex items-center gap-3">
                     <span className="flex items-center gap-1"><CreditCard size={9} /> {sale.paymentMethod || 'Cash'}</span>
                     <span className="flex items-center gap-1"><Package size={9} /> {sale.products?.length} item{sale.products?.length !== 1 ? 's' : ''}</span>
-                    {sale.profit > 0 && <span className="text-green-600 font-medium">+${sale.profit?.toFixed(2)} profit</span>}
+                    {sale.profit > 0 && <span className="text-green-600 font-medium">+₹{sale.profit?.toFixed(2)} profit</span>}
                 </div>
                 <span className="flex items-center gap-1"><Calendar size={9} /> {new Date(sale.createdAt).toLocaleDateString()}</span>
             </div>
@@ -227,7 +228,7 @@ const Customers = () => {
             <div className="flex items-center justify-between flex-wrap gap-3">
                 <div>
                     <h1 className="text-2xl font-bold text-[#051F20]">Customers</h1>
-                    <p className="text-slate-500 text-sm mt-0.5">CRM · {customers.length} customers · ${stats.totalRevenue.toFixed(0)} lifetime value</p>
+                    <p className="text-slate-500 text-sm mt-0.5">CRM · {customers.length} customers · ₹{stats.totalRevenue.toFixed(0)} lifetime value</p>
                 </div>
                 <div className="flex items-center gap-2">
                     <button onClick={fetchCustomers} className="p-2 hover:bg-[#DAF1DE] rounded-xl text-slate-400 hover:text-[#163932] transition-colors">
@@ -246,9 +247,9 @@ const Customers = () => {
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <StatCard label="Total Customers" value={stats.total} sub={`${stats.platinum} Platinum • ${stats.gold} Gold`}
                     icon={Users} iconBg="bg-[#C8E8CE]" iconColor="text-[#163932]" delay={0} />
-                <StatCard label="Lifetime Revenue" value={`$${stats.totalRevenue.toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
+                <StatCard label="Lifetime Revenue" value={`₹${stats.totalRevenue.toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
                     sub="From all purchases" icon={DollarSign} iconBg="bg-green-50" iconColor="text-green-600" delay={0.05} />
-                <StatCard label="Avg. Customer Value" value={`$${stats.avgSpend.toFixed(2)}`}
+                <StatCard label="Avg. Customer Value" value={`₹${stats.avgSpend.toFixed(2)}`}
                     sub="Per customer" icon={TrendingUp} iconBg="bg-blue-50" iconColor="text-blue-600" delay={0.1} />
                 <StatCard label="Total Orders" value={stats.totalOrders}
                     sub={`Top: ${stats.topCustomer?.name?.split(' ')[0] || '—'}`}
@@ -262,10 +263,10 @@ const Customers = () => {
                 </h3>
                 <div className="grid grid-cols-4 gap-3">
                     {[
-                        { t: 'Platinum', count: tierCounts.Platinum, min: '$5,000+', col: 'bg-purple-400', text: 'text-purple-700', bg: 'bg-purple-50' },
-                        { t: 'Gold', count: tierCounts.Gold, min: '$2,000+', col: 'bg-amber-400', text: 'text-amber-700', bg: 'bg-amber-50' },
-                        { t: 'Silver', count: tierCounts.Silver, min: '$500+', col: 'bg-slate-400', text: 'text-slate-600', bg: 'bg-slate-50' },
-                        { t: 'Bronze', count: tierCounts.Bronze, min: '<$500', col: 'bg-orange-300', text: 'text-orange-700', bg: 'bg-orange-50' },
+                        { t: 'Platinum', count: tierCounts.Platinum, min: '₹5,000+', col: 'bg-purple-400', text: 'text-purple-700', bg: 'bg-purple-50' },
+                        { t: 'Gold', count: tierCounts.Gold, min: '₹2,000+', col: 'bg-amber-400', text: 'text-amber-700', bg: 'bg-amber-50' },
+                        { t: 'Silver', count: tierCounts.Silver, min: '₹500+', col: 'bg-slate-400', text: 'text-slate-600', bg: 'bg-slate-50' },
+                        { t: 'Bronze', count: tierCounts.Bronze, min: '<₹500', col: 'bg-orange-300', text: 'text-orange-700', bg: 'bg-orange-50' },
                     ].map(({ t, count, min, col, text, bg }) => (
                         <button key={t} onClick={() => setTierFilter(tierFilter === t ? 'all' : t)}
                             className={`rounded-xl p-4 border-2 text-left transition-all ${tierFilter === t ? `border-[#163932] ${bg}` : 'border-transparent bg-slate-50 hover:border-[#9FD2A7]'}`}>
@@ -368,11 +369,11 @@ const Customers = () => {
                                         </div>
                                         <div className="bg-[#f0faf2] rounded-xl p-2.5 text-center">
                                             <p className="text-xs text-slate-400">Spent</p>
-                                            <p className="font-bold text-[#163932] text-sm">${(c.totalSpent || 0).toFixed(0)}</p>
+                                            <p className="font-bold text-[#163932] text-sm">₹{(c.totalSpent || 0).toFixed(0)}</p>
                                         </div>
                                         <div className="bg-[#f0faf2] rounded-xl p-2.5 text-center">
                                             <p className="text-xs text-slate-400">Avg</p>
-                                            <p className="font-bold text-[#051F20] text-sm">${avgOrder.toFixed(0)}</p>
+                                            <p className="font-bold text-[#051F20] text-sm">₹{avgOrder.toFixed(0)}</p>
                                         </div>
                                     </div>
 
@@ -485,8 +486,8 @@ const Customers = () => {
                             <div className="grid grid-cols-3 gap-px bg-[#DAF1DE] shrink-0 border-b border-[#DAF1DE]">
                                 {[
                                     { label: 'Total Orders', value: curProfile.totalOrders || 0 },
-                                    { label: 'Total Spent', value: `$${(curProfile.totalSpent || 0).toFixed(2)}` },
-                                    { label: 'Avg. Order', value: curProfile.totalOrders > 0 ? `$${((curProfile.totalSpent || 0) / curProfile.totalOrders).toFixed(2)}` : '$0' },
+                                    { label: 'Total Spent', value: `₹${(curProfile.totalSpent || 0).toFixed(2)}` },
+                                    { label: 'Avg. Order', value: curProfile.totalOrders > 0 ? `₹${((curProfile.totalSpent || 0) / curProfile.totalOrders).toFixed(2)}` : '₹0' },
                                 ].map((s, i) => (
                                     <div key={i} className="bg-white px-4 py-4 text-center">
                                         <p className="text-xs text-slate-400">{s.label}</p>

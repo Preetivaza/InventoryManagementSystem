@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const CustomerAuthContext = createContext();
 
-const BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const BASE = `${import.meta.env.VITE_API_URL}/api`;
 
 export const CustomerAuthProvider = ({ children }) => {
     const stored = JSON.parse(localStorage.getItem('customerInfo') || 'null');

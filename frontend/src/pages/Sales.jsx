@@ -134,7 +134,8 @@ const Sales = () => {
 
     const downloadInvoice = (saleId, invoiceId) => {
         const token = JSON.parse(localStorage.getItem('userInfo') || '{}').token;
-        const url = `http://localhost:5000/api/sales/${saleId}/invoice`;
+        const baseUrl = `${import.meta.env.VITE_API_URL}/api`;
+        const url = `${baseUrl}/sales/${saleId}/invoice`;
         fetch(url, { headers: { Authorization: `Bearer ${token}` } })
             .then(r => r.blob())
             .then(blob => {
@@ -158,7 +159,7 @@ const Sales = () => {
             <div className="flex items-center justify-between flex-wrap gap-3">
                 <div>
                     <h1 className="text-2xl font-bold text-[#051F20]">Sales & Billing</h1>
-                    <p className="text-slate-500 text-sm">{salesTotal.count} transactions • ${salesTotal.revenue.toFixed(2)} total</p>
+                    <p className="text-slate-500 text-sm">{salesTotal.count} transactions • ₹{salesTotal.revenue.toFixed(2)} total</p>
                 </div>
                 <div className="flex items-center gap-2">
                     <button onClick={() => setBarcodeMode(!barcodeMode)}
@@ -180,7 +181,7 @@ const Sales = () => {
                             <CheckCircle size={20} className="text-green-500 shrink-0" />
                             <div>
                                 <p className="text-sm font-semibold text-green-800">Sale completed! {lastSale.invoiceId}</p>
-                                <p className="text-xs text-green-600">Total: ${lastSale.totalAmount?.toFixed(2)} • Profit: ${lastSale.profit?.toFixed(2)}</p>
+                                <p className="text-xs text-green-600">Total: ₹{lastSale.totalAmount?.toFixed(2)} • Profit: ₹{lastSale.profit?.toFixed(2)}</p>
                             </div>
                         </div>
                         <div className="flex items-center gap-2">
@@ -251,7 +252,7 @@ const Sales = () => {
                                                         <p className="text-xs text-slate-400">{p.sku} • Margin: {p.costPrice ? (((p.price - p.costPrice) / p.price) * 100).toFixed(0) : '?'}%</p>
                                                     </div>
                                                     <div className="text-right">
-                                                        <p className="font-bold text-[#163932] text-sm">${p.price.toFixed(2)}</p>
+                                                        <p className="font-bold text-[#163932] text-sm">₹{p.price.toFixed(2)}</p>
                                                         <p className={`text-xs ${p.quantity < p.minStockLevel ? 'text-red-500' : 'text-slate-400'}`}>
                                                             {p.quantity < p.minStockLevel && '⚠️ '}Stock: {p.quantity}
                                                         </p>
@@ -300,10 +301,10 @@ const Sales = () => {
                                         <tr key={i} className="hover:bg-[#f0faf2]">
                                             <td className="px-4 py-3">
                                                 <p className="font-medium text-[#051F20]">{item.name}</p>
-                                                <p className="text-xs text-slate-400">${item.price.toFixed(2)} each</p>
+                                                <p className="text-xs text-slate-400">₹{item.price.toFixed(2)} each</p>
                                             </td>
                                             <td className="px-4 py-3 text-center font-medium">{item.quantity}</td>
-                                            <td className="px-4 py-3 text-right font-semibold text-[#163932]">${(item.price * item.quantity).toFixed(2)}</td>
+                                            <td className="px-4 py-3 text-right font-semibold text-[#163932]">₹{(item.price * item.quantity).toFixed(2)}</td>
                                             <td className="px-4 py-3 text-right">
                                                 <button onClick={() => removeFromCart(item.product)} className="text-slate-300 hover:text-red-500 transition-colors p-1">
                                                     <Trash2 size={13} />
@@ -324,14 +325,14 @@ const Sales = () => {
                                 <div className="flex justify-between text-xs text-slate-500">
                                     <div className="flex items-center gap-1.5 text-green-600">
                                         <TrendingUp size={12} />
-                                        Est. Profit: <strong>${cartProfit.toFixed(2)}</strong> ({cartMargin}% margin)
+                                        Est. Profit: <strong>₹{cartProfit.toFixed(2)}</strong> ({cartMargin}% margin)
                                     </div>
                                     <span>{paymentMethod}</span>
                                 </div>
                             )}
                             <div className="flex items-center justify-between">
                                 <span className="text-slate-600 font-medium">Total</span>
-                                <span className="text-2xl font-bold text-[#051F20]">${cartTotal.toFixed(2)}</span>
+                                <span className="text-2xl font-bold text-[#051F20]">₹{cartTotal.toFixed(2)}</span>
                             </div>
                             <button onClick={handleCheckout} disabled={cart.length === 0 || checkingOut}
                                 className="w-full py-3 bg-[#163932] text-white rounded-xl font-semibold hover:bg-[#0B2B26] disabled:opacity-40 transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#163932]/20">
@@ -373,8 +374,8 @@ const Sales = () => {
                                         <p className="text-xs text-slate-400 mt-0.5">{new Date(sale.createdAt).toLocaleString()}</p>
                                     </div>
                                     <div className="text-right">
-                                        <p className="font-bold text-[#051F20]">${sale.totalAmount?.toFixed(2)}</p>
-                                        {sale.profit > 0 && <p className="text-xs text-green-600">+${sale.profit?.toFixed(2)} profit</p>}
+                                        <p className="font-bold text-[#051F20]">₹{sale.totalAmount?.toFixed(2)}</p>
+                                        {sale.profit > 0 && <p className="text-xs text-green-600">+₹{sale.profit?.toFixed(2)} profit</p>}
                                     </div>
                                 </div>
                                 <div className="flex items-center justify-between text-xs text-slate-500 mb-3">
