@@ -13,11 +13,22 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://inventory-management-system-vert-nu.vercel.app"
+];
+
 app.use(
   cors({
-    origin: "https://inventorymanagementsystem-1-qe5j.onrender.com",
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("CORS not allowed"));
+      }
+    },
     credentials: true,
-  }),
+  })
 );
 app.use(morgan('dev'));
 
